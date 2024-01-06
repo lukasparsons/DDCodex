@@ -1,0 +1,17 @@
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\obj\Debug\net7.0\DDScheduler.Data.csproj.AssemblyReference.cache
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\obj\Debug\net7.0\DDScheduler.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\obj\Debug\net7.0\DDScheduler.Data.AssemblyInfoInputs.cache
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\obj\Debug\net7.0\DDScheduler.Data.AssemblyInfo.cs
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\obj\Debug\net7.0\DDScheduler.Data.csproj.CoreCompileInputs.cache
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\bin\Debug\net7.0\DDScheduler.Data.deps.json
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\bin\Debug\net7.0\DDScheduler.Data.dll
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\bin\Debug\net7.0\DDScheduler.Data.pdb
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\bin\Debug\net7.0\DDScheduler.Common.dll
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\bin\Debug\net7.0\DDScheduler.Common.pdb
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\obj\Debug\net7.0\DDScheduler.Data.csproj.CopyComplete
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\obj\Debug\net7.0\DDScheduler.Data.dll
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\obj\Debug\net7.0\refint\DDScheduler.Data.dll
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\obj\Debug\net7.0\DDScheduler.Data.pdb
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\obj\Debug\net7.0\ref\DDScheduler.Data.dll
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\bin\Debug\net7.0\DDScheduler.Data.runtimeconfig.json
+C:\Users\Lukas Parsons\source\repos\DDScheduler\DDScheduler.Data\obj\Debug\net7.0\DDScheduler.Data.genruntimeconfig.cache
