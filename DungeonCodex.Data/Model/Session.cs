@@ -1,11 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using DungeonCodex.Data.Model.Interface;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DungeonCodex.Data.Model
 {
-    public class Session
+    public class Session : IPersisted
     {
-        public int SessionId { get; set; }
-        public int CampaignId { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string Id { get; set; }
+        public string CampaignId { get; set; }
         public string Description { get; set; }
         public string Summary { get; set; }
         public Campaign Campaign { get; set; }

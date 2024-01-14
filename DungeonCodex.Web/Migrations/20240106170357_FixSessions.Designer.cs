@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace DungeonCodex.Migrations
+namespace DungeonCodex.Web.Migrations
 {
-    [DbContext(typeof(DDSContext))]
-    [Migration("20240102045804_InitialCreate")]
-    partial class InitialCreate
+    [DbContext(typeof(DCContext))]
+    [Migration("20240106170357_FixSessions")]
+    partial class FixSessions
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,9 +102,8 @@ namespace DungeonCodex.Migrations
 
             modelBuilder.Entity("DungeonCodex.Data.Model.BlackoutDate", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("TEXT");
@@ -126,9 +125,8 @@ namespace DungeonCodex.Migrations
 
             modelBuilder.Entity("DungeonCodex.Data.Model.Campaign", b =>
                 {
-                    b.Property<int>("CampaignId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("CampaignName")
                         .IsRequired()
@@ -139,7 +137,6 @@ namespace DungeonCodex.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("DungeonMasterUserId")
@@ -149,7 +146,7 @@ namespace DungeonCodex.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("CampaignId");
+                    b.HasKey("Id");
 
                     b.HasIndex("DungeonMasterUserId");
 
@@ -158,18 +155,18 @@ namespace DungeonCodex.Migrations
 
             modelBuilder.Entity("DungeonCodex.Data.Model.CampaignParticipant", b =>
                 {
-                    b.Property<int>("CampaignParticipantId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("CampaignId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("CampaignId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("CampaignParticipantId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CampaignId");
 
@@ -180,12 +177,12 @@ namespace DungeonCodex.Migrations
 
             modelBuilder.Entity("DungeonCodex.Data.Model.Character", b =>
                 {
-                    b.Property<int>("CharacterId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("CampaignParticipantId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("CampaignParticipantId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Class")
                         .IsRequired()
@@ -206,7 +203,7 @@ namespace DungeonCodex.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("CharacterId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CampaignParticipantId");
 
@@ -215,12 +212,12 @@ namespace DungeonCodex.Migrations
 
             modelBuilder.Entity("DungeonCodex.Data.Model.Session", b =>
                 {
-                    b.Property<int>("SessionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("CampaignId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("CampaignId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -236,7 +233,7 @@ namespace DungeonCodex.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("SessionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CampaignId");
 

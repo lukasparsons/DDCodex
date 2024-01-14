@@ -11,7 +11,7 @@ namespace DungeonCodex.Data.Repositories
 {
     public class UserDataRepository
     {
-        public static ApplicationUser UpsertUser(DDSContext context, DiscordUserObject identity)
+        public static ApplicationUser UpsertUser(DCContext context, DiscordUserObject identity)
         {
             if (identity is null) throw new ArgumentNullException(nameof(identity));
             var user = context.Users.FirstOrDefault(u => u.DiscordUserId == identity.DiscordUserId);

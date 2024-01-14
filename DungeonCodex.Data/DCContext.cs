@@ -1,19 +1,19 @@
 ﻿using DungeonCodex.Common.Enums;
+using DungeonCodex.Data.Extensions;
 using DungeonCodex.Data.Model;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DungeonCodex.Data
 {
-    public class DDSContext : IdentityDbContext<ApplicationUser>
+    public class DCContext : IdentityDbContext<ApplicationUser>
     {
-        public DDSContext(DbContextOptions<DDSContext> options) : base(options)
+        public DCContext(DbContextOptions<DCContext> options) : base(options)
         {
         }
 
         public DbSet<BlackoutDate> BlackoutDates { get; set; }
         public DbSet<Campaign> Campaigns { get; set; }
-        public DbSet<CampaignParticipant> CampaignParticipants { get; set; }
         public DbSet<Character> Characters { get; set; }
         public DbSet<Session> Sessions { get; set; }
 
@@ -31,20 +31,11 @@ namespace DungeonCodex.Data
                 .HasConversion(
                     v => v.ToString(),
                     v => (BlackoutDateType)Enum.Parse(typeof(BlackoutDateType), v));
-
-            modelBuilder.Entity<ApplicationUser>()
-                .HasMany(u => u.Campaigns)
-                .WithOne(cp => cp.User)
-                .HasForeignKey(cp => cp.UserId);
-
-            modelBuilder.Entity<Campaign>()
-                .HasMany(c => c.CampaignParticipants)
-                .WithOne(cp => cp.Campaign)
-                .HasForeignKey(cp => cp.CampaignId);
+                
 
             modelBuilder.Entity<Campaign>()
                 .HasOne(c => c.DungeonMasterUser)
-                .WithMany()
+                .WithMany(u => u.DMCampaigns)
                 .HasForeignKey(c => c.DungeonMasterUserId)
                 .IsRequired(false);
 
@@ -72,5 +63,28 @@ namespace DungeonCodex.Data
                     v => TimeOnly.FromTimeSpan(v));
 
         }
+
+        public DbSet<T> ResolveDbSet<T>()
+            where T : class, new()
+        {
+            Type type = typeof(T);
+            var fooInstance = new T() ?? throw new InvalidOperationException("Cannot resolve DbSet for null type");
+            return fooInstance switch
+            {
+                BlackoutDate => CastDbSet<T, BlackoutDate>(BlackoutDates),
+                Campaign => CastDbSet<T, Campaign>(Campaigns),
+                Character => CastDbSet<T, Character>(Characters),
+                Session => CastDbSet<T, Session>(Sessions),
+                _ => throw new InvalidOperationException($"Cannot resolve DbSet for type {type.Name}")
+            };
+        }
+
+        private static DbSet<T> CastDbSet<T,T2>(DbSet<T2> dbSet)
+            where T: class
+            where T2: class
+                => dbSet as DbSet<T>
+            ?? throw new InvalidOperationException($"Cannot cast DbSet<{typeof(T2).Name}> to DbSet<{typeof(T).Name}>");
+
+        
     }
 }

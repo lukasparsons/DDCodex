@@ -1,0 +1,96 @@
+﻿@page
+@using DungeonCodex.Data.Model;
+@using DungeonCodex.Data.Repositories;
+@model DungeonCodex.Web.Pages.Campaigns.IndexModel
+@{
+    var currentUser = Model.CurrentUser;
+    bool isAdmin() => currentUser?.IsAdmin ?? false;
+}
+
+<h1>Campaigns</h1>
+<div>
+    <table class="table table-hover table-dark">
+        <thead>
+            <tr class="text-center">
+                <th>Name</th>
+                <th>Code</th>
+                <th>Preferred Schedule</th>
+                <th>DM</th>
+                <th># of Participants</th>
+                <th class="text-center">
+                    View Details
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var campaign in Model.Campaigns.OrderByDescending(c => c.Code))
+            {
+                <tr class="text-center">
+                    <td>
+                        <a class="btn btn-link btn-sm" asp-page="/Campaigns/Details" asp-route-id="@campaign.Id">
+                            @campaign.CampaignName
+                        </a>
+
+                    </td>
+                    <td>@campaign.Code</td>
+                    <td>@campaign.PreferredCadence</td>
+                    <td>@($"{campaign.DungeonMasterUser?.FirstName} {campaign.DungeonMasterUser?.LastName}")</td>
+                    <td>@campaign.Characters.Count</td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" asp-page="/Campaigns/Details" asp-route-id="@campaign.Id">
+                            <i class="fa fa-info-circle"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div>
+    @if (Model.CurrentUserDmCampaigns.Any())
+    {
+        <p class="d-inline-flex gap-1">
+            <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#yourCampaigns" role="button" aria-expanded="false" aria-controls="yourCampaigns">
+                Campaigns You Run <i class="fa fa-chevron-right"></i>
+            </a>
+        </p>
+        <div class="collapse" id="yourCampaigns">
+            <div class="card card-body align-items-center">
+                <p><strong>You're the DM. That's <i>sick.</i></strong></p>
+                @foreach (var campaign in Model.CurrentUserDmCampaigns)
+                {
+                    <ul class="list-group list-group-horizontal" style="width:60%;">
+                        <li class="list-group-item flex-fill">@campaign.CampaignName</li>
+                        <li class="list-group-item flex-fill"><button class="btn btn-primary btn-sm">Manage <i class="fa fa-pencil-alt"></i></button></li>
+                        <li class="list-group-item flex-fill"><button class="btn btn-primary btn-sm">Wiki <i class="fa fa-book-open"></i></button></li>
+                    </ul>
+                }
+            </div>
+        </div>
+    }
+    <br />
+</div>
+<div>
+    @if (Model.PlayerCharacters.Any())
+    {
+        <p class="d-inline-flex gap-1">
+            <a class="btn btn-primary btn-sm" data-bs-toggle="collapse" href="#playCampaigns" role="button" aria-expanded="false" aria-controls="playCampaigns">
+                Campaigns You Play <i class="fa fa-chevron-right"></i>
+            </a>
+        </p>
+        <div class="collapse" id="playCampaigns">
+            <div class="card card-body">
+                <p>Here you can see your character in each campaign and edit the character if you want.</p>
+                @foreach (var character in Model.PlayerCharacters)
+                {
+                    <ul class="list-group list-group-horizontal text-center">
+                        <li class="list-group-item flex-fill">@character.Campaign.CampaignName</li>
+                        <li class="list-group-item flex-fill"><strong>@character.Name</strong></li>
+                        <li class="list-group-item flex-fill"><button class="btn btn-primary btn-sm">Edit Character <i class="fa fa-pencil-alt"></i></button></li>
+                    </ul>
+                }
+            </div>
+        </div>
+    }
+    <br />
+</div>

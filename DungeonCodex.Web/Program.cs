@@ -7,7 +7,7 @@ namespace DungeonCodex
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -18,18 +18,7 @@ namespace DungeonCodex
 
             ServiceInitialization.InitializeServices(builder.Services, builder.Configuration);
 
-            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-            var dbFilePath = connectionString.Split('=')[1];
-
             var app = builder.Build();
-
-            if (!File.Exists(dbFilePath))
-            {
-                using var scope = app.Services.CreateScope();
-                var db = scope.ServiceProvider.GetRequiredService<DDSContext>();
-                db.Database.Migrate();
-            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -51,6 +40,8 @@ namespace DungeonCodex
             app.MapDefaultControllerRoute();
 
             app.UseHttpLogging();
+
+            await ServiceInitialization.ConfigureWebApplication(app);
 
             app.Run();
         }

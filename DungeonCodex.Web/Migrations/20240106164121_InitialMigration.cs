@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace DungeonCodex.Migrations
+namespace DungeonCodex.Web.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -164,8 +164,7 @@ namespace DungeonCodex.Migrations
                 name: "BlackoutDates",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Date = table.Column<DateOnly>(type: "TEXT", nullable: false),
                     Type = table.Column<string>(type: "TEXT", nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: false)
@@ -185,11 +184,10 @@ namespace DungeonCodex.Migrations
                 name: "Campaigns",
                 columns: table => new
                 {
-                    CampaignId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    CampaignId = table.Column<string>(type: "TEXT", nullable: false),
                     CampaignName = table.Column<string>(type: "TEXT", nullable: false),
                     Code = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
                     DungeonMasterUserId = table.Column<string>(type: "TEXT", nullable: true),
                     PreferredCadence = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -207,10 +205,9 @@ namespace DungeonCodex.Migrations
                 name: "CampaignParticipants",
                 columns: table => new
                 {
-                    CampaignParticipantId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    CampaignParticipantId = table.Column<string>(type: "TEXT", nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    CampaignId = table.Column<int>(type: "INTEGER", nullable: false)
+                    CampaignId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -233,9 +230,8 @@ namespace DungeonCodex.Migrations
                 name: "Sessions",
                 columns: table => new
                 {
-                    SessionId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CampaignId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SessionId = table.Column<string>(type: "TEXT", nullable: false),
+                    CampaignId = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     Summary = table.Column<string>(type: "TEXT", nullable: false),
                     SessionDate = table.Column<DateTime>(type: "date", nullable: false),
@@ -256,14 +252,13 @@ namespace DungeonCodex.Migrations
                 name: "Characters",
                 columns: table => new
                 {
-                    CharacterId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    CharacterId = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
                     Class = table.Column<string>(type: "TEXT", nullable: false),
                     DDBLink = table.Column<string>(type: "TEXT", nullable: false),
                     Level = table.Column<int>(type: "INTEGER", nullable: false),
-                    CampaignParticipantId = table.Column<int>(type: "INTEGER", nullable: false)
+                    CampaignParticipantId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

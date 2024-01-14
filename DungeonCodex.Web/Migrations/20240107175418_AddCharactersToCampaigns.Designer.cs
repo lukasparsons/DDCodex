@@ -3,6 +3,7 @@ using System;
 using DungeonCodex.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DungeonCodex.Web.Migrations
 {
     [DbContext(typeof(DCContext))]
-    partial class DDSContextModelSnapshot : ModelSnapshot
+    [Migration("20240107175418_AddCharactersToCampaigns")]
+    partial class AddCharactersToCampaigns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.14");
@@ -150,12 +153,37 @@ namespace DungeonCodex.Web.Migrations
                     b.ToTable("Campaigns");
                 });
 
+            modelBuilder.Entity("DungeonCodex.Data.Model.CampaignParticipant", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CampaignId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CampaignParticipants");
+                });
+
             modelBuilder.Entity("DungeonCodex.Data.Model.Character", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("CampaignId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CampaignParticipantId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -178,15 +206,11 @@ namespace DungeonCodex.Web.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CampaignId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CampaignParticipantId");
 
                     b.ToTable("Characters");
                 });
@@ -363,22 +387,22 @@ namespace DungeonCodex.Web.Migrations
             modelBuilder.Entity("DungeonCodex.Data.Model.Campaign", b =>
                 {
                     b.HasOne("DungeonCodex.Data.Model.ApplicationUser", "DungeonMasterUser")
-                        .WithMany("DMCampaigns")
+                        .WithMany()
                         .HasForeignKey("DungeonMasterUserId");
 
                     b.Navigation("DungeonMasterUser");
                 });
 
-            modelBuilder.Entity("DungeonCodex.Data.Model.Character", b =>
+            modelBuilder.Entity("DungeonCodex.Data.Model.CampaignParticipant", b =>
                 {
                     b.HasOne("DungeonCodex.Data.Model.Campaign", "Campaign")
-                        .WithMany("Characters")
+                        .WithMany("CampaignParticipants")
                         .HasForeignKey("CampaignId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DungeonCodex.Data.Model.ApplicationUser", "User")
-                        .WithMany("Characters")
+                        .WithMany("Campaigns")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -386,6 +410,21 @@ namespace DungeonCodex.Web.Migrations
                     b.Navigation("Campaign");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DungeonCodex.Data.Model.Character", b =>
+                {
+                    b.HasOne("DungeonCodex.Data.Model.Campaign", null)
+                        .WithMany("Characters")
+                        .HasForeignKey("CampaignId");
+
+                    b.HasOne("DungeonCodex.Data.Model.CampaignParticipant", "CampaignParticipant")
+                        .WithMany()
+                        .HasForeignKey("CampaignParticipantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CampaignParticipant");
                 });
 
             modelBuilder.Entity("DungeonCodex.Data.Model.Session", b =>
@@ -454,13 +493,13 @@ namespace DungeonCodex.Web.Migrations
                 {
                     b.Navigation("BlackoutDates");
 
-                    b.Navigation("Characters");
-
-                    b.Navigation("DMCampaigns");
+                    b.Navigation("Campaigns");
                 });
 
             modelBuilder.Entity("DungeonCodex.Data.Model.Campaign", b =>
                 {
+                    b.Navigation("CampaignParticipants");
+
                     b.Navigation("Characters");
 
                     b.Navigation("Sessions");
